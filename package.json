@@ -1,0 +1,29 @@
+{
+  "name": "simple-mock",
+  "version": "0.2.0",
+  "description": "Super simple mocks, stubs, and spies with 1-step sandbox restore",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupiter/node-simple-mock.git"
+  },
+  "keywords": [
+    "test",
+    "mock",
+    "stub",
+    "spy",
+    "fake"
+  ],
+  "author": "Pieter Raubenheimer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jupiter/node-simple-mock/issues"
+  },
+  "homepage": "https://github.com/jupiter/node-simple-mock",
+  "devDependencies": {
+    "mocha": "^2.0.1"
+  }
+}
