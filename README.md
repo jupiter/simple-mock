@@ -57,7 +57,7 @@ If you need to create a standalone stub:
 ```
 simple.stub().callbackWith(null, 'etc');
 simple.stub().returnWith('etc');
-  simple.stub().throwWith(new Error());
+simple.stub().throwWith(new Error());
 ```
 Note: stubs are automatically spies
 
