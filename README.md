@@ -22,6 +22,12 @@ simple.mock(obj, 'example').returnWith('etc'); // Stub
 simple.mock(obj, 'example').throwWith(new Error()); // Stub
 ```
 
+Then, to make sure all objects are back to the state the were in before your mocks:
+
+```
+simple.restore(); // Ideally called in an afterEach() block 
+```
+
 `callbackWith`, `returnWith` and `throwWith` can be chained for queued behaviour, e.g.
 
 ```
@@ -32,12 +38,6 @@ simple
 ```
 
 `callbackWith`, `returnWith` and `throwWith` are simple arrays fn.cbArgs, fn.returnValues, fn.throwErrors
-
-And make sure objects are back to the state the were in before your mocks:
-
-```
-simple.restore(); // Ideally called in an afterEach() block 
-```
 
 ## Expectations
 
