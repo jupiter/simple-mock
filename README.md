@@ -1,4 +1,4 @@
-# simple-mock
+# simple-mock ![Project status](https://secure.travis-ci.org/jupiter/node-simple-mock.png?branch=master)
 
 Super simple mocks, stubs, and spies with 1-step sandbox restore.
 
@@ -25,7 +25,7 @@ simple.mock(obj, 'example').throwWith(new Error()); // Stub
 Then, to make sure all objects are back to the state the were in before your mocks:
 
 ```
-simple.restore(); // Ideally called in an afterEach() block 
+simple.restore(); // Ideally called in an afterEach() block
 ```
 
 `callbackWith`, `returnWith` and `throwWith` can be chained for queued behaviour, e.g.
@@ -36,7 +36,7 @@ simple.mock(Something.prototype, 'example')
   .callbackWith(new Error());
 ```
 
-`callbackWith`, `returnWith` and `throwWith` configurations are stored on a simple array fn.actions 
+`callbackWith`, `returnWith` and `throwWith` configurations are stored on a simple array fn.actions
 
 ## Expectations
 
