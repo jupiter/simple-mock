@@ -37,7 +37,7 @@ simple
   .callbackWith(new Error());
 ```
 
-`callbackWith`, `returnWith` and `throwWith` are simple arrays fn.cbArgs, fn.returnValues, fn.throwErrors
+`callbackWith`, `returnWith` and `throwWith` configurations are stored on a simple array fn.actions 
 
 ## Expectations
 
