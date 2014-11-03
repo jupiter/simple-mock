@@ -77,7 +77,7 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
     newFn.called = true;
 
     try {
-      call.returned = wrappedFn.apply(this, arguments);
+      call.returned = (wrappedFn || _noop).apply(this, arguments);
     } catch(e) {
       call.threw = e;
       throw e;

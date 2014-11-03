@@ -164,6 +164,16 @@ describe('simple', function() {
   describe('stub()', function() {
     var stubFn;
 
+    describe('with no configuration', function() {
+      it('is also a spy', function() {
+        stubFn = simple.stub();
+
+        stubFn('etc');
+        assert(stubFn.called);
+        assert(stubFn.lastCall.args[0], 'etc');
+      });
+    });
+
     describe('for a single callback configuration', function() {
       beforeEach(function() {
         stubFn = simple.stub().callbackWith(1, 2, 3);
