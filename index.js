@@ -74,6 +74,7 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
     newFn.firstCall = newFn.firstCall || call;
     newFn.lastCall = call;
     newFn.callCount++;
+    newFn.called = true;
 
     try {
       call.returned = wrappedFn.apply(this, arguments);

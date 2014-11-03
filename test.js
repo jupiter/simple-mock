@@ -23,6 +23,7 @@ describe('simple', function() {
       it('can be queried for arguments on a single call', function() {
         spyFn('with', 'args');
 
+        assert(spyFn.called);
         assert.equal(spyFn.callCount, 1);
         assert(spyFn.calls);
         assert(spyFn.firstCall);
@@ -36,6 +37,7 @@ describe('simple', function() {
         spyFn('and');
         spyFn('more', 'args');
 
+        assert(spyFn.called);
         assert.equal(spyFn.callCount, 3);
         assert(spyFn.calls);
         assert(spyFn.firstCall);
@@ -61,6 +63,7 @@ describe('simple', function() {
       });
 
       it('can be queried without having been called', function() {
+        assert(!spyFn.called);
         assert.equal(spyFn.callCount, 0);
         assert.deepEqual(spyFn.calls, []);
         assert(spyFn.lastCall);
@@ -76,6 +79,7 @@ describe('simple', function() {
         }
 
         assert(threw);
+        assert(spyFn.called);
         assert.equal(spyFn.callCount, 1);
         assert(spyFn.firstCall);
         assert.equal(spyFn.firstCall.threw, threw);
@@ -100,6 +104,7 @@ describe('simple', function() {
         }
 
         assert.equal(threw.length, 3);
+        assert(spyFn.called);
         assert.equal(spyFn.callCount, 3);
         assert(spyFn.firstCall);
         assert.equal(spyFn.firstCall.threw, threw[0]);
@@ -120,6 +125,7 @@ describe('simple', function() {
       });
 
       it('can be queried without having been called', function() {
+        assert(!spyFn.called);
         assert.equal(spyFn.callCount, 0);
         assert.deepEqual(spyFn.calls, []);
         assert(spyFn.lastCall);
@@ -145,6 +151,7 @@ describe('simple', function() {
         returned.push(spyFn());
 
         assert.equal(returned.length, 3);
+        assert(spyFn.called);
         assert.equal(spyFn.callCount, 3);
         assert(spyFn.firstCall);
         assert.equal(spyFn.firstCall.returned, returned[0]);
@@ -164,6 +171,7 @@ describe('simple', function() {
 
       it('can call back with arguments', function() {
         stubFn('a', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 1);
           assert.equal(stubFn.lastCall.args[0], 'a');
           assert.equal(arguments.length, 3);
@@ -176,6 +184,7 @@ describe('simple', function() {
       it('can call back with arguments, over multiple calls', function() {
         stubFn('a', function() {});
         stubFn('b', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 2);
           assert.equal(stubFn.lastCall.args[0], 'b');
           assert.equal(arguments.length, 3);
@@ -193,6 +202,7 @@ describe('simple', function() {
 
       it('can call back once with arguments', function() {
         stubFn('a', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 1);
           assert.equal(stubFn.lastCall.args[0], 'a');
           assert.equal(arguments[0], 1);
@@ -202,11 +212,13 @@ describe('simple', function() {
       it('can call back with arguments, over multiple calls, looping per default', function() {
         stubFn('a', function() {});
         stubFn('b', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 2);
           assert.equal(stubFn.lastCall.args[0], 'b');
           assert.equal(arguments[0], 2);
         });
         stubFn('c', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 3);
           assert.equal(stubFn.lastCall.args[0], 'c');
           assert.equal(arguments[0], 3);
@@ -222,11 +234,13 @@ describe('simple', function() {
         stubFn.loop = false;
         stubFn('a', function() {});
         stubFn('b', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 2);
           assert.equal(stubFn.lastCall.args[0], 'b');
           assert.equal(arguments[0], 2);
         });
         stubFn('c', function() {
+          assert(stubFn.called);
           assert(stubFn.callCount, 3);
           assert.equal(stubFn.lastCall.args[0], 'c');
           assert.equal(arguments[0], 3);
@@ -253,6 +267,7 @@ describe('simple', function() {
         }
 
         assert(threw);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 1);
         assert.equal(threw.message, 'example');
       });
@@ -271,6 +286,7 @@ describe('simple', function() {
         }
 
         assert.equal(threw.length, 2);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 2);
         assert.equal(threw[0], threw[1]);
         assert.equal(threw[0].message, 'example');
@@ -291,6 +307,7 @@ describe('simple', function() {
         }
 
         assert(threw);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 1);
         assert.equal(threw.message, 'a');
       });
@@ -314,6 +331,7 @@ describe('simple', function() {
         }
 
         assert.equal(threw.length, 3);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 3);
         assert.equal(threw[0].message, 'a');
         assert.equal(threw[1].message, 'b');
@@ -341,6 +359,7 @@ describe('simple', function() {
         }
 
         assert.equal(threw.length, 2);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 3);
         assert.equal(threw[0].message, 'a');
         assert.equal(threw[1].message, 'b');
@@ -367,6 +386,7 @@ describe('simple', function() {
         returned.push(stubFn());
 
         assert.equal(returned.length, 2);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 2);
         assert.equal(returned[0], returned[1]);
         assert.equal(returned[0], 'example');
@@ -394,6 +414,7 @@ describe('simple', function() {
         returned.push(stubFn());
 
         assert.equal(returned.length, 3);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 3);
         assert.equal(returned[0], 'a');
         assert.equal(returned[1], 'b');
@@ -409,6 +430,7 @@ describe('simple', function() {
         returned.push(stubFn());
 
         assert.equal(returned.length, 3);
+        assert(stubFn.called);
         assert.equal(stubFn.callCount, 3);
         assert.equal(returned[0], 'a');
         assert.equal(returned[1], 'b');
@@ -451,7 +473,7 @@ describe('simple', function() {
           return 'y';
         });
         assert.equal(obj.protoFn(), 'y');
-        assert.equal(obj.protoFn.callCount, 1);
+        assert(obj.protoFn.called);
         simple.restore();
         assert.equal(obj.protoFn(), 'x');
       });
@@ -459,7 +481,7 @@ describe('simple', function() {
       it('can mock with stubbed functions over its prototype\'s and restore', function() {
         simple.mock(obj, 'protoFn').returnWith('y');
         assert.equal(obj.protoFn(), 'y');
-        assert.equal(obj.protoFn.callCount, 1);
+        assert(obj.protoFn.called);
         simple.restore();
         assert.equal(obj.protoFn(), 'x');
       });
@@ -492,7 +514,7 @@ describe('simple', function() {
       it('can mock with spy on pre-existing functions and restore', function() {
         simple.mock(obj, 'fnD').returnWith('a');
         assert.equal(obj.fnD(), 'a');
-        assert.equal(obj.fnD.callCount, 1);
+        assert(obj.fnD.called);
         simple.restore();
         assert.equal(obj.fnD(), 'd');
       });
@@ -500,7 +522,7 @@ describe('simple', function() {
       it('can mock with newly stubbed functions and restore', function() {
         simple.mock(obj, 'fnA').returnWith('a');
         assert.equal(obj.fnA(), 'a');
-        assert.equal(obj.fnA.callCount, 1);
+        assert(obj.fnA.called);
         simple.restore();
         assert.equal(obj.fnA, undefined);
       });

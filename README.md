@@ -31,8 +31,7 @@ simple.restore(); // Ideally called in an afterEach() block
 `callbackWith`, `returnWith` and `throwWith` can be chained for queued behaviour, e.g.
 
 ```
-simple
-  .mock(Something.prototype, 'example')
+simple.mock(Something.prototype, 'example')
   .callbackWith(null, 'etc')
   .callbackWith(new Error());
 ```
@@ -44,22 +43,22 @@ simple
 You define your expectations with your own choice of assertion library.
 
 ```
-assert.equals(fn.callCount, 1);
+assert(fn.called);
+assert.equals(fn.callCount, 3);
 assert.equals(fn.lastCall.args[0], error); // First parameter of the last call
-assert.equals(fn.lastCall.returned, 'etc');
-assert.equals(fn.lastCall.threw, error);
+assert.equals(fn.calls[0].returned, 'etc');
+assert.equals(fn.calls[1].threw, error);
 ```
 
 ## Standalone Stubs and Spies
 
-If you need to create a standalone stub:
+If you need to create a standalone stub (stubs are also spies):
 
 ```
 simple.stub().callbackWith(null, 'etc');
 simple.stub().returnWith('etc');
 simple.stub().throwWith(new Error());
 ```
-Note: stubs are automatically spies
 
 Or spy on a standalone function:
 
