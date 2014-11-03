@@ -1,6 +1,6 @@
 {
   "name": "simple-mock",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Super simple mocks, stubs, and spies with 1-step sandbox restore",
   "main": "index.js",
   "scripts": {
