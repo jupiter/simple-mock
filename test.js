@@ -537,5 +537,29 @@ describe('simple', function() {
         assert.equal(obj.fnA, undefined);
       });
     });
+
+    describe('with one argument', function() {
+      it('returns a spy', function() {
+        var called = 0;
+
+        var spy = simple.mock(function() {
+          called++;
+        });
+
+        spy();
+        assert(called, 1);
+        assert(spy.called);
+      });
+    });
+
+    describe('with no arguments', function() {
+      it('returns a stub', function() {
+        var stub = simple.mock().returnWith('x');
+
+        var x = stub();
+        assert(stub.called);
+        assert(x, 'x');
+      });
+    });
   });
 });

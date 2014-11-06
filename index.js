@@ -23,7 +23,11 @@ simple.restore = function(){
  * @api public
  */
 simple.mock = function(obj, key, mockValue) {
-  if (isFunction(mockValue)) {
+  if (!arguments.length) {
+    return simple.spyOrStub();
+  } else if (arguments.length === 1) {
+    return simple.spyOrStub(obj);
+  } else if (isFunction(mockValue)) {
     mockValue = simple.spyOrStub(mockValue);
   } else if (arguments.length === 2) {
     mockValue = simple.spyOrStub(obj, key);
