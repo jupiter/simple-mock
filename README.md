@@ -26,13 +26,13 @@ simple.mock(obj, 'example').throwWith(new Error()); // Stub
 
 Then, to make sure all objects are back to the state the were in before your mocks:
 
-```
+```js
 simple.restore(); // Ideally called in an afterEach() block
 ```
 
 `callbackWith`, `returnWith` and `throwWith` can be chained for queued behaviour, e.g.
 
-```
+```js
 simple.mock(Something.prototype, 'example')
   .callbackWith(null, 'etc')
   .callbackWith(new Error());
@@ -44,7 +44,7 @@ simple.mock(Something.prototype, 'example')
 
 You define your expectations with your own choice of assertion library.
 
-```
+```js
 assert(fn.called);
 assert.equals(fn.callCount, 3);
 assert.equals(fn.lastCall.args[0], error); // First parameter of the last call
@@ -56,7 +56,7 @@ assert.equals(fn.calls[1].threw, error);
 
 If you need to create a standalone stub (stubs are also spies):
 
-```
+```js
 simple.stub().callbackWith(null, 'etc');
 simple.stub().returnWith('etc');
 simple.stub().throwWith(new Error());
@@ -64,9 +64,85 @@ simple.stub().throwWith(new Error());
 
 Or spy on a standalone function:
 
-```
+```js
 var fn = simple.spy(function(){});
 
 assert.equals(fn.callCount, 0);
 assert.equals(fn.calls, []);
 ```
+
+## API
+
+For `var simple = require('simple-mock')`:
+
+### simple.restore()
+
+Restores all current mocks.
+
+### simple.mock(obj, key, value)
+
+Sets the value on this object. E.g. `mock(config, 'title', 'test')` is the same as `config.title = 'test'`, but restorable with all mocks.
+
+### simple.mock(obj, key, fn)
+
+Wraps `fn` in a spy and sets this on the `obj`, restorable with all mocks.
+
+### simple.mock(obj, key)
+
+If `obj` has already has this function, it is wrapped in a spy. The resulting spy can be turned into a stub by further configuration. Restores with all mocks.
+
+### simple.spy(fn) *or* simple.mock(fn)
+
+Wraps `fn` in a spy.
+
+### simple.stub() *or* simple.mock()
+
+Returns a stub function that is also a spy.
+
+### spy.called
+
+Boolean
+
+### spy.callCount
+
+Number of times the function was called.
+
+### spy.calls
+
+An array of calls, each having these properties:
+
+- **call.args** an array of arguments received on this call
+- **call.returned** the value returned by the wrapped function
+- **call.threw** the error thrown by the wrapped function
+
+### spy.lastCall
+
+The last call object, with properties as above. (This is often also the first and only call.)
+
+### stub.callbackWith(...)
+
+Configures this stub to call back with the arguments passed. The callback function to be called is assumed to be the last argument passed to the stub, as per general practice, e.g. `stub(a, cb)` or `stub(a, b, cb)`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.returnWith(val)
+
+Configures this stub to return with this value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.throwWith(err)
+
+Configures this stub to throw this error. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.actions
+
+An array of behaviours, each having *one* of these properties:
+
+- **action.cbArgs** arguments to call back with
+- **action.returnValue**
+- **action.throwError**
+
+### stub.loop
+
+Boolean (default: true) setting whether the queue of actions for this stub should repeat.
+
+## Why
+
+The most complete, framework-agnostic mocking library is [sinon.js](http://sinonjs.org/). It also has pages of documentation and lots of sugar-coating that we generally don't need. Just because it is there doesn't mean you need to use it. Keep it simple!
