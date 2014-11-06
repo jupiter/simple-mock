@@ -1,4 +1,5 @@
-'use strict';
+(function (global, module) { // Browser compatibility
+
 var simple = exports;
 var mocks = [];
 
@@ -135,3 +136,10 @@ function isFunction(value) {
   return toString.call(value) == funcClass;
 }
 var funcClass = '[object Function]';
+
+// Browser compatibility
+if ('undefined' !== typeof window) {
+  window.simple = module.exports;
+}
+
+})(this, 'undefined' != typeof module ? module : {exports: {}});

@@ -6,13 +6,15 @@ Super simple mocks, stubs, and spies with 1-step sandbox restore.
 
 `npm install simple-mock`
 
+(For the browser, expose the `index.js` found at the top level of this repository.)
+
 ## Mock
 
 You can mock any *function* or *value* on an object and *easily* restore it.
 
 Examples
 
-```
+```js
 simple.mock(obj, 'example', 'value'); // Replace with this value
 simple.mock(obj, 'example', function() {}); // Replace with this function
 
