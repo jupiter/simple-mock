@@ -62,12 +62,13 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
   }
 
   var stubFn = function() {
-    var cb = arguments[arguments.length - 1];
     var action = (newFn.loop) ? newFn.actions[(newFn.callCount - 1) % newFn.actions.length] : newFn.actions.shift();
 
     if (!action) return;
     if (action.throwError) throw action.throwError;
     if (action.returnValue) return action.returnValue;
+
+    var cb = ('cbArgIndex' in action) ? arguments[action.cbArgIndex] : arguments[arguments.length - 1];
     if (action.cbArgs) return cb.apply(null, action.cbArgs);
   }
 
@@ -102,6 +103,15 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
   newFn.callbackWith = function() {
     wrappedFn = stubFn;
     newFn.actions.push({ cbArgs: arguments });
+    return newFn; // Chainable
+  }
+
+  newFn.callbackArgWith = function() {
+    wrappedFn = stubFn;
+    newFn.actions.push({
+      cbArgs: Array.prototype.slice.call(arguments, 1),
+      cbArgIndex: arguments[0]
+    });
     return newFn; // Chainable
   }
 

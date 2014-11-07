@@ -99,6 +99,8 @@ Wraps `fn` in a spy.
 
 Returns a stub function that is also a spy.
 
+---
+
 ### spy.called
 
 Boolean
@@ -119,9 +121,11 @@ An array of calls, each having these properties:
 
 The last call object, with properties as above. (This is often also the first and only call.)
 
-### stub.callbackWith(...)
+---
 
-Configures this stub to call back with the arguments passed. The callback function to be called is assumed to be the last argument passed to the stub, as per general practice, e.g. `stub(a, cb)` or `stub(a, b, cb)`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+### stub.callbackWith(...) *or* stub.callbackArgWith(argumentIndex, ...)
+
+Configures this stub to call back with the arguments passed. It will use the last argument as callback, or argument at `argumentIndex`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
 
 ### stub.returnWith(val)
 

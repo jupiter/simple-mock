@@ -175,32 +175,63 @@ describe('simple', function() {
     });
 
     describe('for a single callback configuration', function() {
-      beforeEach(function() {
-        stubFn = simple.stub().callbackWith(1, 2, 3);
-      });
+      describe('with default index', function() {
+        beforeEach(function() {
+          stubFn = simple.stub().callbackWith(1, 2, 3);
+        });
 
-      it('can call back with arguments', function() {
-        stubFn('a', function() {
-          assert(stubFn.called);
-          assert(stubFn.callCount, 1);
-          assert.equal(stubFn.lastCall.args[0], 'a');
-          assert.equal(arguments.length, 3);
-          assert.equal(arguments[0], 1);
-          assert.equal(arguments[1], 2);
-          assert.equal(arguments[2], 3);
+        it('can call back with arguments', function() {
+          stubFn('a', function() {
+            assert(stubFn.called);
+            assert(stubFn.callCount, 1);
+            assert.equal(stubFn.lastCall.args[0], 'a');
+            assert.equal(arguments.length, 3);
+            assert.equal(arguments[0], 1);
+            assert.equal(arguments[1], 2);
+            assert.equal(arguments[2], 3);
+          });
+        });
+
+        it('can call back with arguments, over multiple calls', function() {
+          stubFn('a', function() {});
+          stubFn('b', function() {
+            assert(stubFn.called);
+            assert(stubFn.callCount, 2);
+            assert.equal(stubFn.lastCall.args[0], 'b');
+            assert.equal(arguments.length, 3);
+            assert.equal(arguments[0], 1);
+            assert.equal(arguments[1], 2);
+            assert.equal(arguments[2], 3);
+          });
         });
       });
 
-      it('can call back with arguments, over multiple calls', function() {
-        stubFn('a', function() {});
-        stubFn('b', function() {
-          assert(stubFn.called);
-          assert(stubFn.callCount, 2);
-          assert.equal(stubFn.lastCall.args[0], 'b');
-          assert.equal(arguments.length, 3);
-          assert.equal(arguments[0], 1);
-          assert.equal(arguments[1], 2);
-          assert.equal(arguments[2], 3);
+      describe('with specified index', function() {
+        beforeEach(function() {
+          stubFn = simple.stub().callbackArgWith(1, 2, 3);
+        });
+
+        it('can call back with arguments', function() {
+          stubFn('a', function() {
+            assert(stubFn.called);
+            assert(stubFn.callCount, 1);
+            assert.equal(stubFn.lastCall.args[0], 'a');
+            assert.equal(arguments.length, 2);
+            assert.equal(arguments[0], 2);
+            assert.equal(arguments[1], 3);
+          });
+        });
+
+        it('can call back with arguments, over multiple calls', function() {
+          stubFn('a', function() {});
+          stubFn('b', function() {
+            assert(stubFn.called);
+            assert(stubFn.callCount, 2);
+            assert.equal(stubFn.lastCall.args[0], 'b');
+            assert.equal(arguments.length, 2);
+            assert.equal(arguments[0], 2);
+            assert.equal(arguments[1], 3);
+          });
         });
       });
     });
