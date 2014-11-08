@@ -1,6 +1,6 @@
 {
   "name": "simple-mock",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Super simple mocks, stubs, and spies with 1-step sandbox restore",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,6 @@
   },
   "keywords": [
     "test",
-    "sinon",
     "simplemock",
     "simple",
     "mock",
