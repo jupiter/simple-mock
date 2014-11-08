@@ -116,6 +116,7 @@ An array of calls, each having these properties:
 - **call.args** an array of arguments received on this call
 - **call.returned** the value returned by the wrapped function
 - **call.threw** the error thrown by the wrapped function
+- **call.k** autoincrementing number, can be compared to evaluate call order
 
 ### spy.lastCall
 
@@ -125,7 +126,7 @@ The last call object, with properties as above. (This is often also the first an
 
 ### stub.callbackWith(...) *or* stub.callbackArgWith(argumentIndex, ...)
 
-Configures this stub to call back with the arguments passed. It will use the last argument as callback, or argument at `argumentIndex`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+Configures this stub to call back with the arguments passed. It will use either the last argument as callback, or the argument at `argumentIndex`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
 
 ### stub.returnWith(val)
 
@@ -149,4 +150,4 @@ Boolean (default: true) setting whether the queue of actions for this stub shoul
 
 ## Why
 
-The most complete, framework-agnostic mocking library is [sinon.js](http://sinonjs.org/). It also has pages of documentation and lots of sugar-coating that we generally don't need. Just because it is there doesn't mean you need to use it. Keep it simple!
+The most complete, framework-agnostic mocking library is [sinon.js](http://sinonjs.org/). It also has pages of documentation and lots of sugar-coating that we generally don't need. Just because it is there doesn't mean you need it. Keep it simple!

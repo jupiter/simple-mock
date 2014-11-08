@@ -2,6 +2,7 @@
 
 var simple = exports;
 var mocks = [];
+var totalCalls = 0;
 
 /**
  * Restore the current simple and create a new one
@@ -74,6 +75,7 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
 
   var newFn = function() {
     var call = {
+      k: totalCalls++, // Keep count of calls to record the absolute order of calls
       args: Array.prototype.slice.call(arguments, 0)
     };
     newFn.calls.push(call);

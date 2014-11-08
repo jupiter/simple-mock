@@ -159,6 +159,24 @@ describe('simple', function() {
         assert.equal(spyFn.lastCall.returned, returned[2]);
       });
     });
+
+    describe('calls of multiple spies', function() {
+      it('can be compared to determine the order they were called in', function() {
+        var spy1 = simple.spy(function(){});
+        var spy2 = simple.spy(function(){});
+        var spy3 = simple.spy(function(){});
+
+        spy1();
+        spy3();
+        spy2();
+        spy1();
+
+        assert(spy1.lastCall.k > spy2.lastCall.k);
+        assert(spy1.lastCall.k > spy3.lastCall.k);
+        assert(spy2.lastCall.k > spy3.lastCall.k);
+        assert(spy3.lastCall.k > spy1.calls[0].k);
+      });
+    });
   });
 
   describe('stub()', function() {
