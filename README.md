@@ -1,6 +1,6 @@
 # simple-mock ![Project status](https://secure.travis-ci.org/jupiter/node-simple-mock.png?branch=master)
 
-Super simple mocks, stubs, and spies with 1-step sandbox restore.
+Super simple stubs and spies with 1-step sandbox restore.
 
 ## Install
 
@@ -10,13 +10,15 @@ Super simple mocks, stubs, and spies with 1-step sandbox restore.
 
 ## Mock
 
-You can mock any *function* or *value* on an object and *easily* restore it.
+Not sure when to use a mock, stub, or spy? Just use `simple.mock`.
 
-Examples
+Examples:
 
 ```js
+var simple = require('simple-mock');
+
 simple.mock(obj, 'example', 'value'); // Replace with this value
-simple.mock(obj, 'example', function() {}); // Replace with this function
+simple.mock(obj, 'example', function() {}); // Replace with a spy on this function
 
 simple.mock(obj, 'example') // Spy on underlying method *or* stub
 simple.mock(obj, 'example').callbackWith(null, 'etc'); // Stub
@@ -42,7 +44,7 @@ simple.mock(Something.prototype, 'example')
 
 ## Expectations
 
-You define your expectations with your own choice of assertion library.
+You define your expectations with *your own choice* of assertion library.
 
 ```js
 assert(fn.called);
@@ -150,4 +152,4 @@ Boolean (default: true) setting whether the queue of actions for this stub shoul
 
 ## Why
 
-The most complete, framework-agnostic mocking library is [sinon.js](http://sinonjs.org/). It also has pages of documentation and lots of sugar-coating that we generally don't need. Just because it is there doesn't mean you need it. Keep it simple!
+The most complete, framework-agnostic mocking library is [sinon.js](http://sinonjs.org/). It also has pages of documentation and lots of sugar-coating that we generally don't need. Keep it simple!
