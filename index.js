@@ -70,7 +70,7 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
     if (action.returnValue) return action.returnValue;
 
     var cb = ('cbArgIndex' in action) ? arguments[action.cbArgIndex] : arguments[arguments.length - 1];
-    if (action.cbArgs) return cb.apply(null, action.cbArgs);
+    if (action.cbArgs) return cb.apply(action.cbContext || null, action.cbArgs);
   }
 
   var newFn = function() {
@@ -97,23 +97,36 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
   newFn.calls = [];
   newFn.lastCall = { args: [] }; // For dot-safety
   newFn.callCount = 0;
+  newFn.called = false;
 
   // Stub
   newFn.actions = [];
   newFn.loop = true;
 
-  newFn.callbackWith = function() {
+  newFn.callbackWith = newFn.callback = function() {
     wrappedFn = stubFn;
     newFn.actions.push({ cbArgs: arguments });
     return newFn; // Chainable
   }
 
-  newFn.callbackArgWith = function() {
+  newFn.callbackArgWith = newFn.callbackAtIndex = function() {
     wrappedFn = stubFn;
     newFn.actions.push({
       cbArgs: Array.prototype.slice.call(arguments, 1),
       cbArgIndex: arguments[0]
     });
+    return newFn; // Chainable
+  }
+
+  newFn.inThisContext = function(obj) {
+    var action = newFn.actions[newFn.actions.length - 1];
+    action.cbContext = obj;
+    return newFn; // Chainable
+  }
+
+  newFn.withArgs = function() {
+    var action = newFn.actions[newFn.actions.length - 1];
+    action.cbArgs = arguments;
     return newFn; // Chainable
   }
 

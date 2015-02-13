@@ -252,6 +252,19 @@ describe('simple', function() {
           });
         });
       });
+
+      describe('with context specified', function() {
+        beforeEach(function() {
+          stubFn = simple.stub().callback().inThisContext({ a: 'a' });
+        });
+
+        it('should do what...', function(done) {
+          stubFn(function() {
+            assert.equal(this.a, 'a');
+            done();
+          });
+        });
+      });
     });
 
     describe('for a multiple callback configurations', function() {

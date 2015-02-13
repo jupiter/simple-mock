@@ -59,7 +59,7 @@ assert.equals(fn.calls[1].threw, error);
 If you need to create a standalone stub (stubs are also spies):
 
 ```js
-simple.stub().callbackWith(null, 'etc');
+simple.stub().callback(null, 'etc');
 simple.stub().returnWith('etc');
 simple.stub().throwWith(new Error());
 ```
@@ -126,10 +126,6 @@ The last call object, with properties as above. (This is often also the first an
 
 ---
 
-### stub.callbackWith(...) *or* stub.callbackArgWith(argumentIndex, ...)
-
-Configures this stub to call back with the arguments passed. It will use either the last argument as callback, or the argument at `argumentIndex`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
-
 ### stub.returnWith(val)
 
 Configures this stub to return with this value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
@@ -137,6 +133,14 @@ Configures this stub to return with this value. Subsequent calls of this on the 
 ### stub.throwWith(err)
 
 Configures this stub to throw this error. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.callback(...) *or* stub.callbackAtIndex(cbArgumentIndex, ...)
+
+Configures this stub to call back with the arguments passed. It will use either the last argument as callback, or the argument at `cbArgumentIndex`. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.inThisContext(obj)
+
+Configures the last configured callback to be called in this context, i.e. `this` will be `obj`.
 
 ### stub.actions
 
