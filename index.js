@@ -94,10 +94,13 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
   }
 
   // Spy
-  newFn.calls = [];
-  newFn.lastCall = { args: [] }; // For dot-safety
-  newFn.callCount = 0;
-  newFn.called = false;
+  newFn.reset = function() {
+    newFn.calls = [];
+    newFn.lastCall = { args: [] }; // For dot-safety
+    newFn.callCount = 0;
+    newFn.called = false;
+  }
+  newFn.reset();
 
   // Stub
   newFn.actions = [];
