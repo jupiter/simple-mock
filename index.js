@@ -76,7 +76,8 @@ simple.spyOrStub = simple.stub = simple.spy = function(wrappedFn, key) {
   var newFn = function() {
     var call = {
       k: totalCalls++, // Keep count of calls to record the absolute order of calls
-      args: Array.prototype.slice.call(arguments, 0)
+      args: Array.prototype.slice.call(arguments, 0),
+      context: this
     };
     newFn.calls.push(call);
     newFn.firstCall = newFn.firstCall || call;

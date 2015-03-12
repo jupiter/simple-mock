@@ -115,7 +115,8 @@ Number of times the function was called.
 
 An array of calls, each having these properties:
 
-- **call.args** an array of arguments received on this call
+- **call.args** an array of arguments received on the call
+- **call.context** the context (`this`) of the call
 - **call.returned** the value returned by the wrapped function
 - **call.threw** the error thrown by the wrapped function
 - **call.k** autoincrementing number, can be compared to evaluate call order

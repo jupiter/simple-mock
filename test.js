@@ -21,7 +21,11 @@ describe('simple', function() {
       });
 
       it('can be queried for arguments on a single call', function() {
-        spyFn('with', 'args');
+        var context = {
+          spyFn: spyFn
+        };
+
+        context.spyFn('with', 'args');
 
         assert(spyFn.called);
         assert.equal(spyFn.callCount, 1);
@@ -30,12 +34,17 @@ describe('simple', function() {
         assert.equal(spyFn.firstCall, spyFn.lastCall);
         assert.equal(spyFn.firstCall, spyFn.calls[0]);
         assert.deepEqual(spyFn.lastCall.args, ['with', 'args']);
+        assert.equal(spyFn.lastCall.context, context);
       });
 
       it('can be queried for arguments over multiple calls', function() {
+        var context = {
+          spyFn: spyFn
+        };
+
         spyFn('with', 'args');
         spyFn('and');
-        spyFn('more', 'args');
+        context.spyFn('more', 'args');
 
         assert(spyFn.called);
         assert.equal(spyFn.callCount, 3);
@@ -48,6 +57,7 @@ describe('simple', function() {
         assert(spyFn.lastCall);
         assert.equal(spyFn.lastCall, spyFn.calls[2]);
         assert.deepEqual(spyFn.lastCall.args, ['more', 'args']);
+        assert.equal(spyFn.lastCall.context, context);
       });
     });
 
