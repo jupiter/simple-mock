@@ -15,21 +15,21 @@ Not sure when to use a mock, stub, or spy? Just use `simple.mock`.
 Examples:
 
 ```js
-var simple = require('simple-mock');
+var simple = require('simple-mock')
 
-simple.mock(obj, 'example', 'value'); // Replace with this value
-simple.mock(obj, 'example', function() {}); // Replace with a spy on this function
+simple.mock(obj, 'example', 'value') // Replace with this value
+simple.mock(obj, 'example', function () {}) // Replace with a spy on this function
 
 simple.mock(obj, 'example') // Spy on underlying method *or* stub
-simple.mock(obj, 'example').callbackWith(null, 'etc'); // Stub
-simple.mock(obj, 'example').returnWith('etc'); // Stub
-simple.mock(obj, 'example').throwWith(new Error()); // Stub
+simple.mock(obj, 'example').callbackWith(null, 'etc') // Stub
+simple.mock(obj, 'example').returnWith('etc') // Stub
+simple.mock(obj, 'example').throwWith(new Error()) // Stub
 ```
 
 Then, to make sure all objects are back to the state the were in before your mocks:
 
 ```js
-simple.restore(); // Ideally called in an afterEach() block
+simple.restore() // Ideally called in an afterEach() block
 ```
 
 `callbackWith`, `returnWith` and `throwWith` can be chained for queued behaviour, e.g.
@@ -37,7 +37,7 @@ simple.restore(); // Ideally called in an afterEach() block
 ```js
 simple.mock(Something.prototype, 'example')
   .callbackWith(null, 'etc')
-  .callbackWith(new Error());
+  .callbackWith(new Error())
 ```
 
 `callbackWith`, `returnWith` and `throwWith` configurations are stored on a simple array fn.actions
@@ -47,11 +47,11 @@ simple.mock(Something.prototype, 'example')
 You define your expectations with *your own choice* of assertion library.
 
 ```js
-assert(fn.called);
-assert.equals(fn.callCount, 3);
-assert.equals(fn.lastCall.args[0], error); // First parameter of the last call
-assert.equals(fn.calls[0].returned, 'etc');
-assert.equals(fn.calls[1].threw, error);
+assert(fn.called)
+assert.equals(fn.callCount, 3)
+assert.equals(fn.lastCall.args[0], error) // First parameter of the last call
+assert.equals(fn.calls[0].returned, 'etc')
+assert.equals(fn.calls[1].threw, error)
 ```
 
 ## Standalone Stubs and Spies
@@ -59,18 +59,18 @@ assert.equals(fn.calls[1].threw, error);
 If you need to create a standalone stub (stubs are also spies):
 
 ```js
-simple.stub().callback(null, 'etc');
-simple.stub().returnWith('etc');
-simple.stub().throwWith(new Error());
+simple.stub().callback(null, 'etc')
+simple.stub().returnWith('etc')
+simple.stub().throwWith(new Error())
 ```
 
 Or spy on a standalone function:
 
 ```js
-var fn = simple.spy(function(){});
+var fn = simple.spy(function () {})
 
-assert.equals(fn.callCount, 0);
-assert.equals(fn.calls, []);
+assert.equals(fn.callCount, 0)
+assert.equals(fn.calls, [])
 ```
 
 ## API
