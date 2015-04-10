@@ -4,7 +4,9 @@
   "description": "Super simple stubs and spies with 1-step sandbox restore",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "npmrc": "printf \"_auth = $NPM_AUTH_TOKEN\nemail = $NPM_EMAIL\n\" > .npmrc",
+    "test": "npm run test-no-publish && if [ -n \"${TRAVIS_TAG}\" ]; then npm run npmrc && npm publish; fi",
+    "test-no-publish": "standard && mocha"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,6 @@
   "homepage": "https://github.com/jupiter/node-simple-mock",
   "devDependencies": {
     "mocha": "^2.0.1",
-    "standard": "^3.0.0-beta4"
+    "standard": "^3.5.0"
   }
 }
