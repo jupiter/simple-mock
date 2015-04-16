@@ -2,6 +2,7 @@
   "name": "simple-mock",
   "version": "0.2.10",
   "description": "Super simple stubs and spies with 1-step sandbox restore",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "npmrc": "printf \"_auth = $NPM_AUTH_TOKEN\nemail = $NPM_EMAIL\n\" > .npmrc",
