@@ -1,6 +1,6 @@
 {
   "name": "simple-mock",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Super simple stubs and spies with 1-step sandbox restore",
   "license": "MIT",
   "main": "index.js",
@@ -23,7 +23,6 @@
     "fake"
   ],
   "author": "Pieter Raubenheimer",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jupiter/node-simple-mock/issues"
   },
