@@ -165,7 +165,7 @@
    * @api private
    */
   function isFunction (value) {
-    return toString.call(value) === funcClass
+    return Object.prototype.toString.call(value) === funcClass
   }
   var funcClass = '[object Function]'
 
