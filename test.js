@@ -520,8 +520,130 @@ describe('simple', function () {
       })
     })
 
-    describe('for mixed configurations', function () {
+    if (typeof Promise === 'undefined') return // Skip on unsupported platforms
 
+    describe('for promises', function () {
+      var fulfilledStub
+      var rejectedStub
+
+      beforeEach(function () {
+        fulfilledStub = simple.stub().returnWith(true)
+        rejectedStub = simple.stub().returnWith(true)
+      })
+
+      describe('with a single resolving configuration', function () {
+        beforeEach(function () {
+          stubFn = simple.stub().resolveWith('example')
+        })
+
+        it('can return a promise', function (done) {
+          var returned = stubFn()
+
+          assert(returned)
+
+          returned.then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 1)
+            assert.equal(fulfilledStub.lastCall.arg, 'example')
+            assert.equal(rejectedStub.callCount, 0)
+            done()
+          }, 0)
+        })
+      })
+
+      describe('with a multiple resolving configurations', function () {
+        beforeEach(function () {
+          stubFn = simple.stub().resolveWith('a').resolveWith('b')
+        })
+
+        it('can return a promise', function (done) {
+          var returned = stubFn()
+
+          assert(returned)
+
+          returned.then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 1)
+            assert.equal(fulfilledStub.lastCall.arg, 'a')
+            assert.equal(rejectedStub.callCount, 0)
+            done()
+          }, 0)
+        })
+
+        it('can return over multiple calls, looping per default', function (done) {
+          stubFn().then(fulfilledStub, rejectedStub)
+          stubFn().then(fulfilledStub, rejectedStub)
+          stubFn().then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 3)
+            assert.equal(fulfilledStub.calls[0].arg, 'a')
+            assert.equal(fulfilledStub.calls[1].arg, 'b')
+            assert.equal(fulfilledStub.calls[2].arg, 'a')
+            assert.equal(rejectedStub.callCount, 0)
+            done()
+          }, 0)
+        })
+      })
+
+      describe('with a single rejecting configuration', function () {
+        beforeEach(function () {
+          stubFn = simple.stub().rejectWith('example')
+        })
+
+        it('can return a promise', function (done) {
+          var returned = stubFn()
+
+          assert(returned)
+
+          returned.then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 0)
+            assert.equal(rejectedStub.callCount, 1)
+            assert.equal(rejectedStub.lastCall.arg, 'example')
+            done()
+          }, 0)
+        })
+      })
+
+      describe('with a multiple rejecting configurations', function () {
+        beforeEach(function () {
+          stubFn = simple.stub().rejectWith('a').rejectWith('b')
+        })
+
+        it('can return a promise', function (done) {
+          var returned = stubFn()
+
+          assert(returned)
+
+          returned.then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 0)
+            assert.equal(rejectedStub.callCount, 1)
+            assert.equal(rejectedStub.lastCall.arg, 'a')
+            done()
+          }, 0)
+        })
+
+        it('can return over multiple calls, looping per default', function (done) {
+          stubFn().then(fulfilledStub, rejectedStub)
+          stubFn().then(fulfilledStub, rejectedStub)
+          stubFn().then(fulfilledStub, rejectedStub)
+
+          setTimeout(function () {
+            assert.equal(fulfilledStub.callCount, 0)
+            assert.equal(rejectedStub.callCount, 3)
+            assert.equal(rejectedStub.calls[0].arg, 'a')
+            assert.equal(rejectedStub.calls[1].arg, 'b')
+            assert.equal(rejectedStub.calls[2].arg, 'a')
+            done()
+          }, 0)
+        })
+      })
     })
   })
 

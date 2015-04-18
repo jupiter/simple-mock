@@ -22,8 +22,10 @@ simple.mock(obj, 'example', function () {}) // Replace with a spy on this functi
 
 simple.mock(obj, 'example') // Spy on underlying method *or* stub
 simple.mock(obj, 'example').callbackWith(null, 'etc') // Stub
-simple.mock(obj, 'example').returnWith('etc') // Stub
-simple.mock(obj, 'example').throwWith(new Error()) // Stub
+simple.mock(obj, 'example').returnWith('etc')       // Stub
+simple.mock(obj, 'example').throwWith(new Error())  // Stub
+simple.mock(obj, 'example').resolveWith('etc')      // Stub
+simple.mock(obj, 'example').rejectWith(new Error()) // Stub
 ```
 
 Then, to make sure all objects are back to the state the were in before your mocks:
@@ -62,6 +64,8 @@ If you need to create a standalone stub (stubs are also spies):
 simple.stub().callback(null, 'etc')
 simple.stub().returnWith('etc')
 simple.stub().throwWith(new Error())
+simple.stub().resolveWith('etc')
+simple.stub().rejectWith(new Error())
 ```
 
 Or spy on a standalone function:
@@ -146,6 +150,14 @@ Configures this stub to call back with the arguments passed. It will use either 
 ### stub.inThisContext(obj)
 
 Configures the last configured callback to be called in this context, i.e. `this` will be `obj`.
+
+### stub.resolveWith(val)
+
+Configures the stub to return a Promise (where available) resolving to this value. Same as `stub.returnWith(Promise.resolve(val))`.
+
+### stub.rejectWith(val)
+
+Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`.
 
 ### stub.actions
 

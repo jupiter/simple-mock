@@ -76,6 +76,7 @@
       var call = {
         k: totalCalls++, // Keep count of calls to record the absolute order of calls
         args: Array.prototype.slice.call(arguments, 0),
+        arg: arguments[0],
         context: this
       }
       newFn.calls.push(call)
@@ -143,6 +144,14 @@
       wrappedFn = stubFn
       newFn.actions.push({ throwError: err })
       return newFn // Chainable
+    }
+
+    newFn.resolveWith = function (value) {
+      return newFn.returnWith(Promise.resolve(value))
+    }
+
+    newFn.rejectWith = function (value) {
+      return newFn.returnWith(Promise.reject(value))
     }
     return newFn
   }
