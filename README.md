@@ -4,9 +4,11 @@ Super simple stubs and spies with 1-step sandbox restore.
 
 ## Install
 
-`npm install simple-mock`
+```
+$ npm install simple-mock
+```
 
-(For the browser, expose the `index.js` found at the top level of this repository.)
+(For the browser, expose the `index.js` found at the top level of this repository. You can also use `bower install simple-mock`.)
 
 ## Mock
 
@@ -22,9 +24,9 @@ simple.mock(obj, 'example', function () {}) // Replace with a spy on this functi
 
 simple.mock(obj, 'example') // Spy on underlying method *or* stub
 simple.mock(obj, 'example').callbackWith(null, 'etc') // Stub
-simple.mock(obj, 'example').returnWith('etc')       // Stub
-simple.mock(obj, 'example').throwWith(new Error())  // Stub
-simple.mock(obj, 'example').resolveWith('etc')      // Stub
+simple.mock(obj, 'example').returnWith('etc') // Stub
+simple.mock(obj, 'example').throwWith(new Error()) // Stub
+simple.mock(obj, 'example').resolveWith('etc') // Stub
 simple.mock(obj, 'example').rejectWith(new Error()) // Stub
 ```
 
@@ -51,7 +53,8 @@ You define your expectations with *your own choice* of assertion library.
 ```js
 assert(fn.called)
 assert.equals(fn.callCount, 3)
-assert.equals(fn.lastCall.args[0], error) // First parameter of the last call
+assert.equals(fn.lastCall.arg, error) // First parameter of the last call
+assert.equals(fn.lastCall.args[1], 'etc') // Second parameter of the last call
 assert.equals(fn.calls[0].returned, 'etc')
 assert.equals(fn.calls[1].threw, error)
 ```
@@ -153,11 +156,11 @@ Configures the last configured callback to be called in this context, i.e. `this
 
 ### stub.resolveWith(val)
 
-Configures the stub to return a Promise (where available] resolving to this value. Same as `stub.returnWith(Promise.resolve(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')`.
+Configures the stub to return a Promise (where available] resolving to this value. Same as `stub.returnWith(Promise.resolve(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')` or `simple.Promise = $q`.
 
 ### stub.rejectWith(val)
 
-Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')`.
+Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')` or `simple.Promise = $q`.
 
 ### stub.actions
 

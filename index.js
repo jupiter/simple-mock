@@ -147,7 +147,7 @@
     }
 
     newFn.resolveWith = function (value) {
-      return newFn.returnWith(simple.Promise.resolve(value))
+      return newFn.returnWith((simple.Promise.resolve || simple.Promise.when)(value))
     }
 
     newFn.rejectWith = function (value) {
@@ -183,6 +183,6 @@
     window.simple = simple
   }
 
-  // Userland Promise support
+  // Native Promise support
   if (typeof Promise !== 'undefined') simple.Promise = Promise
 })(this, typeof module !== 'undefined' ? module : {exports: {}})
