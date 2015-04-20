@@ -153,11 +153,11 @@ Configures the last configured callback to be called in this context, i.e. `this
 
 ### stub.resolveWith(val)
 
-Configures the stub to return a Promise (where available] resolving to this value. Same as `stub.returnWith(Promise.resolve(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')` or `simple.Promise = $q`.
+Configures the stub to return a Promise (where available] resolving to this value. Same as `stub.returnWith(Promise.resolve(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')`.
 
 ### stub.rejectWith(val)
 
-Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')` or `simple.Promise = $q`.
+Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')`.
 
 ### stub.actions
 

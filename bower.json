@@ -1,0 +1,17 @@
+{
+  "name": "simple-mock",
+  "main": "index.js",
+  "version": "0.2.13",
+  "homepage": "https://github.com/jupiter/node-simple-mock",
+  "authors": [
+    "Pieter Raubenheimer"
+  ],
+  "description": "Super simple stubs and spies with 1-step sandbox restore",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test.js"
+  ]
+}

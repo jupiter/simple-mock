@@ -1,5 +1,5 @@
 (function (global, module) { // Browser compatibility
-  var simple = exports
+  var simple = module.exports
   var mocks = []
   var totalCalls = 0
 
@@ -180,7 +180,7 @@
 
   // Browser compatibility
   if (typeof window !== 'undefined') {
-    window.simple = module.exports
+    window.simple = simple
   }
 
   // Userland Promise support
