@@ -1,12 +1,12 @@
 {
   "name": "simple-mock",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Super simple stubs and spies with 1-step sandbox restore",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
     "npmrc": "printf \"_auth = $NPM_AUTH_TOKEN\nemail = $NPM_EMAIL\n\" > .npmrc",
-    "test": "npm run test-no-publish && if [ -n \"${TRAVIS_TAG}\" ]; then npm run npmrc && npm publish; fi",
+    "test": "npm run test-no-publish && if [ -n \"${TRAVIS_TAG}\" ]; then npm run npmrc && npm publish || 1; fi",
     "test-no-publish": "standard && mocha"
   },
   "repository": {
