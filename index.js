@@ -147,7 +147,8 @@
     }
 
     newFn.resolveWith = function (value) {
-      return newFn.returnWith((simple.Promise.resolve || simple.Promise.when)(value))
+      if (simple.Promise.when) return newFn.returnWith(simple.Promise.when(value))
+      return newFn.returnWith(simple.Promise.resolve(value))
     }
 
     newFn.rejectWith = function (value) {
