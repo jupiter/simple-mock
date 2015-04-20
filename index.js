@@ -147,11 +147,11 @@
     }
 
     newFn.resolveWith = function (value) {
-      return newFn.returnWith(Promise.resolve(value))
+      return newFn.returnWith(simple.Promise.resolve(value))
     }
 
     newFn.rejectWith = function (value) {
-      return newFn.returnWith(Promise.reject(value))
+      return newFn.returnWith(simple.Promise.reject(value))
     }
     return newFn
   }
@@ -182,4 +182,7 @@
   if (typeof window !== 'undefined') {
     window.simple = module.exports
   }
+
+  // Userland Promise support
+  if (typeof Promise !== 'undefined') simple.Promise = Promise
 })(this, typeof module !== 'undefined' ? module : {exports: {}})
