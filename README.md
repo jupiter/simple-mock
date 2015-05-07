@@ -20,9 +20,9 @@ Examples:
 var simple = require('simple-mock')
 
 simple.mock(obj, 'example', 'value') // Replace with this value
-simple.mock(obj, 'example', function () {}) // Replace with a spy on this function
 
 simple.mock(obj, 'example') // Spy on underlying method *or* stub
+simple.mock(obj, 'example').callFn(function () {}) // Stub
 simple.mock(obj, 'example').callbackWith(null, 'etc') // Stub
 simple.mock(obj, 'example').returnWith('etc') // Stub
 simple.mock(obj, 'example').throwWith(new Error()) // Stub
@@ -138,6 +138,10 @@ Resets all counts and properties to the original state.
 
 ---
 
+### stub.callFn(fn)
+
+Configures this stub to call this function, returning its return value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
 ### stub.returnWith(val)
 
 Configures this stub to return with this value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
@@ -152,7 +156,7 @@ Configures this stub to call back with the arguments passed. It will use either 
 
 ### stub.inThisContext(obj)
 
-Configures the last configured callback to be called in this context, i.e. `this` will be `obj`.
+Configures the last configured function or callback to be called in this context, i.e. `this` will be `obj`.
 
 ### stub.resolveWith(val)
 

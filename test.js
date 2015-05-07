@@ -520,6 +520,59 @@ describe('simple', function () {
       })
     })
 
+    describe('for a specified function to call', function () {
+      it('should be called with arguments and return', function () {
+        var stubFn = simple.stub().callFn(function () {
+          return arguments
+        })
+
+        var returned = stubFn('z', 'x')
+
+        assert.equal(stubFn.callCount, 1)
+        assert.equal(returned[0], 'z')
+        assert.equal(returned[1], 'x')
+      })
+
+      it('should be able to throw', function () {
+        var stubFn = simple.stub().callFn(function () {
+          throw new Error('my message')
+        })
+
+        try {
+          stubFn()
+        } catch(e) {
+          assert(e instanceof Error)
+          assert.equal(e.message, 'my message')
+        }
+      })
+
+      it('should be called in context', function () {
+        var mockObj = {
+          stubFn: simple.stub().callFn(function () {
+            return this
+          })
+        }
+
+        var returned = mockObj.stubFn()
+
+        assert.equal(returned, mockObj)
+      })
+
+      it('can be called in specified context', function () {
+        var anotherMockObj = {}
+
+        var mockObj = {
+          stubFn: simple.stub().callFn(function () {
+            return this
+          }).inThisContext(anotherMockObj)
+        }
+
+        var returned = mockObj.stubFn()
+
+        assert.equal(returned, anotherMockObj)
+      })
+    })
+
     describe('for custom/when-conforming promises', function () {
       var fulfilledStub
       var rejectedStub

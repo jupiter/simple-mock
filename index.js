@@ -67,9 +67,10 @@
       if (!action) return
       if (action.throwError) throw action.throwError
       if (action.returnValue) return action.returnValue
+      if (action.fn) return action.fn.apply(action.ctx || this, arguments)
 
       var cb = ('cbArgIndex' in action) ? arguments[action.cbArgIndex] : arguments[arguments.length - 1]
-      if (action.cbArgs) return cb.apply(action.cbContext || null, action.cbArgs)
+      if (action.cbArgs) return cb.apply(action.ctx || null, action.cbArgs)
     }
 
     var newFn = function () {
@@ -124,7 +125,7 @@
 
     newFn.inThisContext = function (obj) {
       var action = newFn.actions[newFn.actions.length - 1]
-      action.cbContext = obj
+      action.ctx = obj
       return newFn // Chainable
     }
 
@@ -153,6 +154,12 @@
 
     newFn.rejectWith = function (value) {
       return newFn.returnWith(simple.Promise.reject(value))
+    }
+
+    newFn.callFn = function (fn) {
+      wrappedFn = stubFn
+      newFn.actions.push({ fn: fn })
+      return newFn // Chainable
     }
     return newFn
   }
