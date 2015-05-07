@@ -26,7 +26,12 @@
     if (!arguments.length) {
       return simple.spyOrStub()
     } else if (arguments.length === 1) {
-      return simple.spyOrStub(obj)
+      mockValue = key
+      key = wrappedRequireFnCache.indexOf(obj)
+      if (!~key) return simple.spyOrStub(obj)
+      obj = unwrappedRequireFnCache
+      if (!mockValue) mockValue = simple.spyOrStub(obj, key)
+      else mockValue = simple.spyOrStub(mockValue)
     } else if (isFunction(mockValue)) {
       mockValue = simple.spyOrStub(mockValue)
     } else if (arguments.length === 2) {
@@ -156,6 +161,45 @@
     }
     return newFn
   }
+
+  var originalModuleLoad
+
+  simple.overload = function () {
+    if (originalModuleLoad) return
+
+    // Object.keys(require.cache).forEach(function (key) {
+    //   if (key === module.id) return;
+    //   delete require.cache[key]
+    // })
+
+    var Module = require('module').Module;
+    originalModuleLoad = Module._load
+
+    Module._load = function () {
+      var returned = originalModuleLoad.apply(this, arguments)
+      if (!isFunction(returned)) return returned
+
+      var indexOfWrappedRequireFn = unwrappedRequireFnCache.indexOf(returned)
+      if (~indexOfWrappedRequireFn) return wrappedRequireFnCache[indexOfWrappedRequireFn]
+
+      function WrappedRequireFn() {
+        return unwrappedRequireFnCache[indexOfWrappedRequireFn].apply(arguments)
+      }
+
+      console.log(WrappedRequireFn.__proto__)
+      WrappedRequireFn.__proto__ = returned
+      WrappedRequireFn.prototype = returned.prototype
+
+      unwrappedRequireFnCache.push(returned)
+      wrappedRequireFnCache.push(WrappedRequireFn)
+      indexOfWrappedRequireFn = wrappedRequireFnCache.length - 1
+
+      return WrappedRequireFn
+    }
+  }
+
+  var wrappedRequireFnCache = [];
+  var unwrappedRequireFnCache = [];
 
   function _restoreMock (mock) {
     if (!mock.oldValueHasKey) {
