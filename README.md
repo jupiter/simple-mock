@@ -1,14 +1,31 @@
-# simple-mock ![Project status](https://secure.travis-ci.org/jupiter/node-simple-mock.png?branch=master)
+# simple-mock
+
+[![travis][travis-image]][travis-url]
+[![npm][npm-image]][npm-url]
+[![downloads][downloads-image]][downloads-url]
+
+[travis-image]: https://img.shields.io/travis/jupiter/simple-mock.svg?style=flat
+[travis-url]: https://travis-ci.org/jupiter/simple-mock
+[npm-image]: https://img.shields.io/npm/v/simple-mock.svg?style=flat
+[npm-url]: https://npmjs.org/package/simple-mock
+[downloads-image]: https://img.shields.io/npm/dm/simple-mock.svg?style=flat
+[downloads-url]: https://npmjs.org/package/simple-mock
 
 Super simple stubs and spies with 1-step sandbox restore.
 
 ## Install
 
+For Node:
+
 ```
 $ npm install simple-mock
 ```
 
-(For the browser, expose the `index.js` found at the top level of this repository. You can also use `bower install simple-mock`.)
+For Browser:
+
+```
+$ bower install simple-mock
+```
 
 ## Mock
 
@@ -64,11 +81,11 @@ assert.equals(fn.calls[1].threw, error)
 If you need to create a standalone stub (stubs are also spies):
 
 ```js
-simple.stub().callback(null, 'etc')
-simple.stub().returnWith('etc')
-simple.stub().throwWith(new Error())
-simple.stub().resolveWith('etc')
-simple.stub().rejectWith(new Error())
+var fn = simple.stub().returnWith('etc')
+
+var returned = fn()
+
+assert.equals(returned, 'etc')
 ```
 
 Or spy on a standalone function:
@@ -79,6 +96,8 @@ var fn = simple.spy(function () {})
 assert.equals(fn.callCount, 0)
 assert.equals(fn.calls, [])
 ```
+
+See [examples](examples) for more common usage patterns.
 
 ## API
 

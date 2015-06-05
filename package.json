@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupiter/node-simple-mock.git"
+    "url": "https://github.com/jupiter/simple-mock.git"
   },
   "keywords": [
     "test",
@@ -24,11 +24,13 @@
   ],
   "author": "Pieter Raubenheimer",
   "bugs": {
-    "url": "https://github.com/jupiter/node-simple-mock/issues"
+    "url": "https://github.com/jupiter/simple-mock/issues"
   },
-  "homepage": "https://github.com/jupiter/node-simple-mock",
+  "homepage": "https://github.com/jupiter/simple-mock",
   "devDependencies": {
-    "mocha": "^2.0.1",
-    "standard": "^3.5.0"
+    "mocha": "^2.2.5",
+    "standard": "^4.0.1"
+  },
+  "dependencies": {
   }
 }
