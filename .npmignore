@@ -1,0 +1,5 @@
+.npmrc
+.travis.yml
+examples
+bower.json
+test.js
