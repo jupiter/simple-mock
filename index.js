@@ -61,6 +61,8 @@
       wrappedFn = wrappedFn[key]
     }
 
+    var originalFn = wrappedFn
+
     var stubFn = function () {
       var action = (newFn.loop) ? newFn.actions[(newFn.callCount - 1) % newFn.actions.length] : newFn.actions.shift()
 
@@ -159,6 +161,12 @@
     newFn.callFn = function (fn) {
       wrappedFn = stubFn
       newFn.actions.push({ fn: fn })
+      return newFn // Chainable
+    }
+
+    newFn.callOriginal = newFn.callOriginalFn = function () {
+      wrappedFn = stubFn
+      newFn.actions.push({ fn: originalFn })
       return newFn // Chainable
     }
     return newFn

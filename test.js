@@ -891,6 +891,16 @@ describe('simple', function () {
         simple.restore()
         assert.equal(obj.protoFn(), 'x')
       })
+
+      it('can mock with stubbed functions and prototype\'s original over its prototype\'s and restore', function () {
+        simple.mock(obj, 'protoFn').returnWith('y').callOriginal().returnWith('z')
+        assert.equal(obj.protoFn(), 'y')
+        assert.equal(obj.protoFn(), 'x')
+        assert.equal(obj.protoFn(), 'z')
+        assert.equal(obj.protoFn.callCount, 3)
+        simple.restore()
+        assert.equal(obj.protoFn(), 'x')
+      })
     })
 
     describe('on an anonymous object', function () {
