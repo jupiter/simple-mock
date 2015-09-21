@@ -45,6 +45,7 @@ simple.mock(obj, 'example').returnWith('etc') // Stub
 simple.mock(obj, 'example').throwWith(new Error()) // Stub
 simple.mock(obj, 'example').resolveWith('etc') // Stub
 simple.mock(obj, 'example').rejectWith(new Error()) // Stub
+simple.mock(obj, 'example').callOriginal() // Unstubbed call
 ```
 
 Then, to make sure all objects are back to the state the were in before your mocks:
@@ -160,6 +161,11 @@ Resets all counts and properties to the original state.
 ### stub.callFn(fn)
 
 Configures this stub to call this function, returning its return value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
+### stub.callOriginal()
+
+Configures this stub to call the original, unstubbed function, returning its return value. Subsequent calls of this on the same stub (chainable) will queue up different behaviours for each subsequent call of the stub.
+
 
 ### stub.returnWith(val)
 
