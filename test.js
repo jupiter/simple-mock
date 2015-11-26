@@ -450,10 +450,12 @@ describe('simple', function () {
 
     describe('for a single returning configuration', function () {
       beforeEach(function () {
-        stubFn = simple.stub().returnWith('example')
+        stubFn = simple.stub()
       })
 
       it('can return', function () {
+        stubFn.returnWith('example')
+
         var returned
         returned = stubFn()
 
@@ -462,16 +464,33 @@ describe('simple', function () {
         assert.equal(returned, 'example')
       })
 
+      it('can return an empty string', function () {
+        stubFn.returnWith('')
+
+        var returned
+        returned = stubFn()
+
+        assert.equal(stubFn.callCount, 1)
+        assert.equal(returned, '')
+      })
+
       it('can return over multiple calls, looping per default', function () {
+        stubFn.returnWith('example-a')
+        stubFn.returnWith('example-b')
+
         var returned = []
         returned.push(stubFn())
         returned.push(stubFn())
+        returned.push(stubFn())
+        returned.push(stubFn())
 
-        assert.equal(returned.length, 2)
+        assert.equal(returned.length, 4)
         assert(stubFn.called)
-        assert.equal(stubFn.callCount, 2)
-        assert.equal(returned[0], returned[1])
-        assert.equal(returned[0], 'example')
+        assert.equal(stubFn.callCount, 4)
+        assert.equal(returned[0], returned[2])
+        assert.equal(returned[0], 'example-a')
+        assert.equal(returned[1], returned[3])
+        assert.equal(returned[1], 'example-b')
       })
     })
 

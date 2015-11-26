@@ -68,8 +68,8 @@
 
       if (!action) return
       if (action.throwError) throw action.throwError
-      if (action.returnValue) return action.returnValue
-      if (action.fn) return action.fn.apply(action.ctx || this, arguments)
+      if ('returnValue' in action) return action.returnValue
+      if ('fn' in action) return action.fn.apply(action.ctx || this, arguments)
 
       var cb = ('cbArgIndex' in action) ? arguments[action.cbArgIndex] : arguments[arguments.length - 1]
       if (action.cbArgs) return cb.apply(action.ctx || null, action.cbArgs)
