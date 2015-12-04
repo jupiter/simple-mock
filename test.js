@@ -211,7 +211,7 @@ describe('simple', function () {
         it('can call back with arguments', function () {
           stubFn('a', function () {
             assert(stubFn.called)
-            assert(stubFn.callCount, 1)
+            assert.equal(stubFn.callCount, 1)
             assert.equal(stubFn.lastCall.args[0], 'a')
             assert.equal(arguments.length, 3)
             assert.equal(arguments[0], 1)
@@ -224,7 +224,7 @@ describe('simple', function () {
           stubFn('a', function () {})
           stubFn('b', function () {
             assert(stubFn.called)
-            assert(stubFn.callCount, 2)
+            assert.equal(stubFn.callCount, 2)
             assert.equal(stubFn.lastCall.args[0], 'b')
             assert.equal(arguments.length, 3)
             assert.equal(arguments[0], 1)
@@ -242,7 +242,7 @@ describe('simple', function () {
         it('can call back with arguments', function () {
           stubFn('a', function () {
             assert(stubFn.called)
-            assert(stubFn.callCount, 1)
+            assert.equal(stubFn.callCount, 1)
             assert.equal(stubFn.lastCall.args[0], 'a')
             assert.equal(arguments.length, 2)
             assert.equal(arguments[0], 2)
@@ -254,7 +254,7 @@ describe('simple', function () {
           stubFn('a', function () {})
           stubFn('b', function () {
             assert(stubFn.called)
-            assert(stubFn.callCount, 2)
+            assert.equal(stubFn.callCount, 2)
             assert.equal(stubFn.lastCall.args[0], 'b')
             assert.equal(arguments.length, 2)
             assert.equal(arguments[0], 2)
@@ -285,7 +285,7 @@ describe('simple', function () {
       it('can call back once with arguments', function () {
         stubFn('a', function () {
           assert(stubFn.called)
-          assert(stubFn.callCount, 1)
+          assert.equal(stubFn.callCount, 1)
           assert.equal(stubFn.lastCall.args[0], 'a')
           assert.equal(arguments[0], 1)
         })
@@ -295,18 +295,18 @@ describe('simple', function () {
         stubFn('a', function () {})
         stubFn('b', function () {
           assert(stubFn.called)
-          assert(stubFn.callCount, 2)
+          assert.equal(stubFn.callCount, 2)
           assert.equal(stubFn.lastCall.args[0], 'b')
           assert.equal(arguments[0], 2)
         })
         stubFn('c', function () {
           assert(stubFn.called)
-          assert(stubFn.callCount, 3)
+          assert.equal(stubFn.callCount, 3)
           assert.equal(stubFn.lastCall.args[0], 'c')
           assert.equal(arguments[0], 3)
         })
         stubFn('d', function () {
-          assert(stubFn.callCount, 4)
+          assert.equal(stubFn.callCount, 4)
           assert.equal(stubFn.lastCall.args[0], 'd')
           assert.equal(arguments[0], 1)
         })
@@ -317,13 +317,13 @@ describe('simple', function () {
         stubFn('a', function () {})
         stubFn('b', function () {
           assert(stubFn.called)
-          assert(stubFn.callCount, 2)
+          assert.equal(stubFn.callCount, 2)
           assert.equal(stubFn.lastCall.args[0], 'b')
           assert.equal(arguments[0], 2)
         })
         stubFn('c', function () {
           assert(stubFn.called)
-          assert(stubFn.callCount, 3)
+          assert.equal(stubFn.callCount, 3)
           assert.equal(stubFn.lastCall.args[0], 'c')
           assert.equal(arguments[0], 3)
         })
@@ -972,7 +972,7 @@ describe('simple', function () {
         })
 
         spy()
-        assert(called, 1)
+        assert.equal(called, 1)
         assert(spy.called)
       })
     })
@@ -983,7 +983,7 @@ describe('simple', function () {
 
         var x = stub()
         assert(stub.called)
-        assert(x, 'x')
+        assert.equal(x, 'x')
       })
     })
   })
