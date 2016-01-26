@@ -1,5 +1,5 @@
 'use strict'
-/*global describe beforeEach it before*/
+/*global describe beforeEach afterEach it before*/
 var simple = require('./index')
 var assert = require('assert')
 
@@ -865,6 +865,55 @@ describe('simple', function () {
           }, 0)
         })
       })
+    })
+  })
+
+  describe('restore()', function () {
+    var objA
+    var objB
+    var originalValue
+    var mockedValue
+
+    beforeEach(function () {
+      originalValue = 'a'
+      mockedValue = 'b'
+
+      objA = {
+        name: 'objA',
+        valueMock: originalValue
+      }
+
+      objB = {
+        name: 'objB',
+        valueMock: originalValue
+      }
+
+      simple.mock(objA, 'valueMock', mockedValue)
+      simple.mock(objB, 'valueMock', mockedValue)
+    })
+
+    afterEach(function () {
+      simple.restore()
+    })
+
+    it('can restore all mocks', function () {
+      simple.restore()
+      assert.equal(objA.valueMock, originalValue)
+      assert.equal(objB.valueMock, originalValue)
+    })
+
+    it('can restore double-mocked values', function () {
+      simple.mock(objA, 'valueMock', 'ac')
+      simple.mock(objB, 'valueMock', 'bc')
+      simple.restore()
+      assert.equal(objA.valueMock, originalValue)
+      assert.equal(objB.valueMock, originalValue)
+    })
+
+    it('can restore a single mock', function () {
+      simple.restore(objA, 'valueMock')
+      assert.equal(objA.valueMock, originalValue)
+      assert.equal(objB.valueMock, mockedValue)
     })
   })
 

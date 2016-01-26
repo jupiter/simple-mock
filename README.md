@@ -104,10 +104,6 @@ See [examples](examples) for more common usage patterns.
 
 For `var simple = require('simple-mock')`:
 
-### simple.restore()
-
-Restores all current mocks.
-
 ### simple.mock(obj, key, value)
 
 Sets the value on this object. E.g. `mock(config, 'title', 'test')` is the same as `config.title = 'test'`, but restorable with all mocks.
@@ -119,6 +115,14 @@ Wraps `fn` in a spy and sets this on the `obj`, restorable with all mocks.
 ### simple.mock(obj, key)
 
 If `obj` has already has this function, it is wrapped in a spy. The resulting spy can be turned into a stub by further configuration. Restores with all mocks.
+
+### simple.restore()
+
+Restores all current mocks.
+
+### simple.restore(obj, key)
+
+Use this if you need to restore only a single mock value or function on an object.
 
 ### simple.spy(fn) *or* simple.mock(fn)
 
