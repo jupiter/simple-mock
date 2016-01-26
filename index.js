@@ -6,9 +6,22 @@
   /**
    * Restore the current simple and create a new one
    *
+   * @param {Object} [obj]
+   * @param {String} [key]
    * @api public
    */
-  simple.restore = function () {
+  simple.restore = function (obj, key) {
+    if (obj && key) {
+      mocks.some(function (mock, i) {
+        if (mock.obj !== obj || mock.key !== key) return
+
+        mock.restore()
+        mocks.splice(i, 1)
+        return true
+      })
+      return
+    }
+
     mocks.forEach(_restoreMock)
     mocks = []
   }
@@ -42,7 +55,7 @@
     }
 
     mock.restore = _restoreMock.bind(null, mock)
-    mocks.push(mock)
+    mocks.unshift(mock)
 
     obj[key] = mockValue
     return mockValue
