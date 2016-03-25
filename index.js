@@ -1,3 +1,4 @@
+/* global define */
 (function (global, module) { // Browser compatibility
   var simple = module.exports
   var mocks = []
@@ -208,7 +209,11 @@
   var funcClass = '[object Function]'
 
   // Browser compatibility
-  if (typeof window !== 'undefined') {
+  if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return simple
+    })
+  } else if (typeof window !== 'undefined') {
     window.simple = simple
   }
 
