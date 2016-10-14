@@ -183,6 +183,16 @@
       newFn.actions.push({ fn: originalFn })
       return newFn // Chainable
     }
+
+    newFn.withLoop = function () {
+      newFn.loop = true
+      return newFn // Chainable
+    }
+
+    newFn.noLoop = function () {
+      newFn.loop = false
+      return newFn // Chainable
+    }
     return newFn
   }
 
