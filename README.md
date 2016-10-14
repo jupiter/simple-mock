@@ -156,7 +156,7 @@ An array of calls, each having these properties:
 
 The last call object, with properties as above. (This is often also the first and only call.)
 
-### spy.reset()
+### spy.restore()
 
 Resets all counts and properties to the original state.
 
