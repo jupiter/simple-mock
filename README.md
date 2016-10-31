@@ -195,6 +195,10 @@ Configures the stub to return a Promise (where available] resolving to this valu
 
 Configures the stub to return a Promise (where available) rejecting with this error. Same as `stub.returnWith(Promise.reject(val))`. You can use a custom Promise-conforming library, i.e. `simple.Promise = require('bluebird')` or `simple.Promise = $q`.
 
+### stub.withLoop & stub.noLoop
+
+Configures the stub to enable/disable [looping](#stubloop).
+
 ### stub.actions
 
 An array of behaviours, each having *one* of these properties:

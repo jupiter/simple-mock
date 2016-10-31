@@ -866,6 +866,33 @@ describe('simple', function () {
         })
       })
     })
+
+    describe('#noLoop', function () {
+
+      it('should disable looping', function () {
+
+        var stub = simple.stub().noLoop().returnWith('foo')
+
+        assert.equal(stub(), 'foo')
+        assert.equal(stub(), undefined)
+
+      })
+
+    })
+
+    describe('#withLoop', function () {
+
+      it('should enable looping', function () {
+
+        var stub = simple.stub().withLoop().returnWith('foo')
+
+        assert.equal(stub(), 'foo')
+        assert.equal(stub(), 'foo')
+
+      })
+
+    })
+
   })
 
   describe('restore()', function () {
