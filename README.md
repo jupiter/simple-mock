@@ -203,6 +203,76 @@ An array of behaviours, each having *one* of these properties:
 - **action.returnValue**
 - **action.throwError**
 
+If `stub.actions` is set or updated explicitly, at least one call to `stub.callFn(fn)`, `stub.callOriginal()`, `stub.returnWith(val)`, `stub.throwWith(err)`, `stub.callback(...)`, `stub.callbackAtIndex(...)`, `stub.resolveWith(val)`, `stub.rejectWith(val)`, `stub.withActions(actions)` or `stub.withActions()` must be made.
+
+### stub.withActions(actions) *or* stub.withActions()
+
+Configures this stub to use the specified array of actions. See `stub.actions` above for the syntax of an action.
+
+Example:
+
+```js
+var fn = simple.stub()
+         .withActions([{ returnValue: 'a' }, { returnValue: 'b' }])
+var returned1 = fn()
+var returned2 = fn()
+assert.equal(fn.callCount, 2)
+assert.equal(returned1, 'a')
+assert.equal(returned2, 'b')
+```
+
+`withActions` is, just like the others, chainable:
+
+```js
+var fn = simple.stub()
+         .returnWith('a')
+         .withActions([{ returnValue: 'b' }, { returnValue: 'c' }])
+         .returnWith('d')
+
+var returned1 = fn()
+var returned2 = fn()
+var returned3 = fn()
+var returned4 = fn()
+
+assert.equal(fn.callCount, 4)
+assert.equal(returned1, 'a')
+assert.equal(returned2, 'b')
+assert.equal(returned3, 'c')
+assert.equal(returned4, 'd')
+```
+
+`stub.actions` may be set explicitly in which case you need to call `stub.withActions()`:
+
+```js
+var fn = simple.stub()
+fn.actions=[{ returnValue: 'a' }, { returnValue: 'b' }]
+fn.withActions()
+
+var returned1 = fn()
+var returned2 = fn()
+
+assert.equal(fn.callCount, 2)
+assert.equal(returned1, 'a')
+assert.equal(returned2, 'b')
+```
+
+... unless another configuration has been specified on the stub. In that case no call to `stub.withActions()` is needed:
+
+```js
+var fn = simple.stub().returnWith('a')
+fn.actions.push({ returnValue: 'b' }, { returnValue: 'c' })
+
+var returned1 = fn()
+var returned2 = fn()
+var returned3 = fn()
+
+assert.equal(fn.callCount, 3)
+assert.equal(returned1, 'a')
+assert.equal(returned2, 'b')
+assert.equal(returned3, 'c')
+```
+
+
 ### stub.loop
 
 Boolean (default: true) setting whether the queue of actions for this stub should repeat.

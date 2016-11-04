@@ -178,6 +178,14 @@
       return newFn // Chainable
     }
 
+    newFn.withActions = function (actions) {
+      wrappedFn = stubFn
+      if (actions && actions.length >= 0) {
+        Array.prototype.push.apply(newFn.actions, actions)
+      }
+      return newFn // Chainable
+    }
+
     newFn.callOriginal = newFn.callOriginalFn = function () {
       wrappedFn = stubFn
       newFn.actions.push({ fn: originalFn })

@@ -539,6 +539,129 @@ describe('simple', function () {
       })
     })
 
+    describe('for withActions configurations', function () {
+      it('performs all types of actions', function (done) {
+        stubFn = simple.stub().withActions([{ returnValue: 'a' }, { cbArgs: [1, 2, 3] }, { throwError: new Error('my message') }])
+        var returned = stubFn()   // Call 1
+        stubFn('a', function () { // Call 2
+          var call2Args = arguments
+          try {
+            stubFn()              // Call 3
+          } catch (e) {
+
+            assert.equal(stubFn.callCount, 3)
+
+            // Verify Call 1: return 'a'
+            assert(returned)
+            assert.equal(returned, 'a')
+
+            // Verify Call 2: callback with 1,2,3
+            assert(stubFn.called)
+            assert.equal(stubFn.calls[1].args[0], 'a')
+            assert.equal(call2Args.length, 3)
+            assert.equal(call2Args[0], 1)
+            assert.equal(call2Args[1], 2)
+            assert.equal(call2Args[2], 3)
+
+            // Verify Call 3: error thrown
+            assert(e instanceof Error)
+            assert.equal(e.message, 'my message')
+            done()
+          }
+        })
+      })
+
+      it('can return over multiple calls, looping per default', function () {
+        stubFn = simple.stub().withActions([{ returnValue: 'a' }, { returnValue: 'b' }])
+
+        var returned = []
+        returned.push(stubFn())
+        returned.push(stubFn())
+        returned.push(stubFn())
+
+        assert.equal(returned.length, 3)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 3)
+        assert.equal(returned[0], 'a')
+        assert.equal(returned[1], 'b')
+        assert.equal(returned[2], 'a')
+      })
+
+      it('can return over multiple calls, looping turned off', function () {
+        stubFn = simple.stub().withActions([{ returnValue: 'a' }, { returnValue: 'b' }])
+        stubFn.loop = false
+
+        var returned = []
+        returned.push(stubFn())
+        returned.push(stubFn())
+        returned.push(stubFn())
+
+        assert.equal(returned.length, 3)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 3)
+        assert.equal(returned[0], 'a')
+        assert.equal(returned[1], 'b')
+        assert.equal(returned[2], undefined)
+      })
+
+      it('preserves previously added configurations', function () {
+        stubFn = simple.stub().returnWith('a').withActions([{ returnValue: 'b'}, { returnValue: 'c'}])
+        var returned = []
+        returned.push(stubFn())
+        returned.push(stubFn())
+        returned.push(stubFn())
+
+        assert.equal(returned.length, 3)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 3)
+        assert.equal(returned[0], 'a')
+        assert.equal(returned[1], 'b')
+        assert.equal(returned[2], 'c')
+      })
+
+      it('is chainable and more configurations may be added after', function () {
+        stubFn = simple.stub().withActions([{ returnValue: 'a'}, { returnValue: 'b'}]).returnWith('c')
+        var returned = []
+        returned.push(stubFn())
+        returned.push(stubFn())
+        returned.push(stubFn())
+
+        assert.equal(returned.length, 3)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 3)
+        assert.equal(returned[0], 'a')
+        assert.equal(returned[1], 'b')
+        assert.equal(returned[2], 'c')
+      })
+
+      it('allows setting actions array and then calling withActions', function () {
+        stubFn = simple.stub()
+        stubFn.actions = [{ returnValue: 'a'}]
+        stubFn.withActions()
+
+        var returned = stubFn()
+
+        assert.equal(returned.length, 1)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 1)
+        assert.equal(returned, 'a')
+      })
+
+      it('allows calling withActions and then setting actions array', function () {
+        stubFn = simple.stub()
+        stubFn.withActions()
+        stubFn.actions = [{ returnValue: 'a'}]
+
+        var returned = stubFn()
+
+        assert.equal(returned.length, 1)
+        assert(stubFn.called)
+        assert.equal(stubFn.callCount, 1)
+        assert.equal(returned, 'a')
+      })
+
+    })
+
     describe('for a specified function to call', function () {
       it('should be called with arguments and return', function () {
         var stubFn = simple.stub().callFn(function () {
