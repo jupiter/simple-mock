@@ -1,6 +1,6 @@
 {
   "name": "simple-mock",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Super simple stubs and spies with 1-step sandbox restore",
   "license": "MIT",
   "main": "index.js",
