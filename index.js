@@ -169,7 +169,7 @@
     }
 
     newFn.rejectWith = function (value) {
-      return newFn.returnWith(simple.Promise.reject(value))
+      return newFn.callFn(function createRejectedPromise () { return simple.Promise.reject(value) })
     }
 
     newFn.callFn = function (fn) {
