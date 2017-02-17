@@ -749,6 +749,10 @@ describe('simple', function () {
         })
       })
 
+      afterEach(function () {
+        simple.restore()
+      })
+
       describe('with a single resolving configuration', function () {
         beforeEach(function () {
           stubFn = simple.stub().resolveWith('example')
