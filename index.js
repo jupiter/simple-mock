@@ -32,7 +32,7 @@
    *
    * @param {Object} obj
    * @param {String} key
-   * @param {Function|Value} mockValue
+   * @param {Function|*} mockValue
    * @return {Function} mock
    * @api public
    */
