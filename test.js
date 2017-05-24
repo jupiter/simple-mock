@@ -749,6 +749,10 @@ describe('simple', function () {
         })
       })
 
+      afterEach(function () {
+        simple.restore()
+      })
+
       describe('with a single resolving configuration', function () {
         beforeEach(function () {
           stubFn = simple.stub().resolveWith('example')
@@ -988,6 +992,34 @@ describe('simple', function () {
           }, 0)
         })
       })
+    })
+
+    describe('when mock rejectsWith', function () {
+
+      it('and mock is called at a later time then no UnhandledPromiseRejectionWarning and PromiseRejectionHandledWarning occurs', function (done) {
+        var warnings = []
+        function logWarning () {
+          var message = arguments.length === 2 ? 'Unhandled promise rejection' : 'Promise rejection was handled asynchronously'
+          warnings.push(message)
+        }
+        process.on('rejectionHandled', logWarning)
+        process.on('unhandledRejection', logWarning)
+
+        var mock = simple.mock().rejectWith(new Error('from rejectWith'))
+        setTimeout(function () {
+          mock().then(function () {
+            return Promise.reject('Mock should have been rejected')
+          }, function () {
+            assert.equal(warnings.length, 0, 'Warnings "' + warnings.join('", "') + '"')
+          })
+          .then(done, done)
+          .then(function () {
+            process.removeListener('rejectionHandled', logWarning)
+            process.removeListener('unhandledRejection', logWarning)
+          })
+        })
+      })
+
     })
 
     describe('#noLoop', function () {
