@@ -1153,6 +1153,105 @@ describe('simple', function () {
       })
     })
 
+    describe('on a object with prototype', function () {
+      var ProtoKlass
+
+      before(function () {
+        ProtoKlass = function ProtoKlass () {
+          this.z = 'a'
+          this.y = 'b'
+        }
+
+        Object.defineProperty(ProtoKlass.prototype, 'protoGetter', {
+          get: function () {
+            return this.z
+          },
+          configurable: true
+        })
+
+        Object.defineProperty(ProtoKlass.prototype, 'protoGetSet', {
+          get: function () {
+            return this.z
+          },
+          set: function (v) {
+            this.z = v
+          },
+          configurable: true
+        })
+      })
+
+      beforeEach(function () {
+        obj = new ProtoKlass()
+      })
+
+      it('can mock values over a getter on the prototype', function () {
+        simple.mock(ProtoKlass.prototype, 'protoGetter', 'y')
+        assert.equal(obj.protoGetter, 'y')
+        simple.restore()
+        assert.equal(obj.protoGetter, 'a')
+      })
+
+      it('can mock instance values over a getter on the prototype', function () {
+        simple.mock(obj, 'protoGetter', 'y')
+        assert.equal(obj.protoGetter, 'y')
+        simple.restore()
+        assert.equal(obj.protoGetter, 'a')
+      })
+
+      it('can mock with functions on the prototype\'s getter and restore', function () {
+        var protoFn = simple.mock(ProtoKlass.prototype, 'protoGetter', function () {
+          return this.y
+        })
+        assert.equal(obj.protoGetter, 'b')
+        assert(protoFn.called)
+        simple.restore()
+        assert.equal(obj.protoGetter, 'a')
+      })
+
+      it('can mock with functions over a getter on the prototype\'s and restore', function () {
+        var protoFn = simple.mock(obj, 'protoGetter', function () {
+          return this.y
+        })
+        assert.equal(obj.protoGetter, 'b')
+        assert(protoFn.called)
+        simple.restore()
+        assert.equal(obj.protoGetter, 'a')
+      })
+
+      it('can mock with functions on the prototype\'s setter and restore', function () {
+        var protoFn = simple.mock(ProtoKlass.prototype, 'protoGetSet', function (val) {
+          if (arguments.length) {
+            this.y = val
+          } else {
+            return this.y
+          }
+        })
+        obj.protoGetSet = 'g'
+        assert.equal(obj.y, 'g')
+        assert.equal(obj.protoGetSet, 'g')
+        assert(protoFn.called)
+        simple.restore()
+        obj.protoGetSet = 'h'
+        assert.equal(obj.z, 'h')
+        assert.equal(obj.protoGetSet, 'h')
+        assert.equal(obj.y, 'g')
+      })
+
+      it('can mock values over a setter on the prototype', function () {
+        simple.mock(ProtoKlass.prototype, 'protoGetSet', 'y')
+        assert.equal(obj.protoGetSet, 'y')
+        simple.restore()
+        assert.equal(obj.protoGetSet, 'a')
+      })
+
+      it('can mock instance values over a setter on the prototype', function () {
+        simple.mock(obj, 'protoGetSet', 'y')
+        assert.equal(obj.protoGetSet, 'y')
+        simple.restore()
+        assert.equal(obj.protoGetSet, 'a')
+      })
+    })
+
     describe('on an anonymous object', function () {
       beforeEach(function () {
         obj = {

@@ -41,7 +41,12 @@
       return simple.spyOrStub()
     } else if (arguments.length === 1) {
       return simple.spyOrStub(obj)
-    } else if (isFunction(mockValue)) {
+    }
+
+    var property = Object.getOwnPropertyDescriptor(obj, key)
+    var prototypeProperty = !property && Object.getOwnPropertyDescriptor(Object.getPrototypeOf(obj), key)
+
+    if (isFunction(mockValue)) {
       mockValue = simple.spyOrStub(mockValue)
     } else if (arguments.length === 2) {
       mockValue = simple.spyOrStub(obj, key)
@@ -51,6 +56,8 @@
       obj: obj,
       key: key,
       mockValue: mockValue,
+      overProtoGetSet: prototypeProperty,
+      oldProperty: (property && (property.get || property.set) && property),
       oldValue: obj[key],
       oldValueHasKey: (key in obj)
     }
@@ -58,7 +65,28 @@
     mock.restore = _restoreMock.bind(null, mock)
     mocks.unshift(mock)
 
-    obj[key] = mockValue
+    if (mock.oldProperty || (prototypeProperty && (prototypeProperty.get || prototypeProperty.set))) {
+      var def = {
+        configurable: true
+      }
+      if ((property && property.get) || (prototypeProperty && prototypeProperty.get)) {
+        if (isFunction(mockValue)) {
+          def.get = mockValue
+        } else {
+          def.value = mockValue
+        }
+      }
+      if ((property && property.set) || (prototypeProperty && prototypeProperty.set)) {
+        if (isFunction(mockValue)) {
+          def.set = mockValue
+        } else {
+          def.value = mockValue
+        }
+      }
+      Object.defineProperty(obj, key, def)
+    } else {
+      obj[key] = mockValue
+    }
     return mockValue
   }
 
@@ -205,11 +233,18 @@
   }
 
   function _restoreMock (mock) {
-    if (!mock.oldValueHasKey) {
+    if (!mock.oldValueHasKey || mock.overProtoGetSet) {
       delete mock.obj[mock.key]
       return
     }
-    mock.obj[mock.key] = mock.oldValue
+    if (mock.oldProperty) {
+      Object.defineProperty(mock.obj, mock.key, {
+        get: mock.oldProperty.get,
+        set: mock.oldProperty.set
+      })
+    } else {
+      mock.obj[mock.key] = mock.oldValue
+    }
   }
 
   function _noop () {}
